@@ -1,0 +1,35 @@
+* Chapter X: [Title]
+:PROPERTIES:
+:week: 3
+:tags: :lecture: :SME:   # Add tags like :lecture: for teaching content, :SME: for industry relevance
+:END:
+
+** Summary
+- Main concepts:
+  - ...
+  - ...
+- Key formulas / algorithms:
+  - ...
+- My understanding:
+  - ...
+
+** Code Snippets
+#+BEGIN_SRC python
+# Example: Implementing XYZ
+...
+#+END_SRC
+
+** Visuals
+- (Screenshot or link to figure/diagram)
+- (Short description)
+
+** Potential Lecture Material
+- Explanation style:
+  - ...
+- Practical example:
+  - ...
+- Assignment idea:
+  - ...
+
+** Open Questions
+- ...

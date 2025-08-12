@@ -1,0 +1,33 @@
+#+TITLE: Lecture Template — Reveal.js
+#+AUTHOR: Selçuk Bilmiş
+#+REVEAL_THEME: white
+#+REVEAL_TRANS: slide
+#+OPTIONS: toc:nil num:nil
+#+REVEAL_PLUGINS: (highlight search notes zoom)
+#+REVEAL_INIT_OPTIONS: transitionSpeed:'fast', hash:true, slideNumber:true
+
+* Title & Objectives
+- What we will learn today
+- Why it matters (use cases / SME angle)
+
+* Core Idea
+- Short theory bullets
+- One diagram (embed image): [[file:assets/images/sample.png]]
+
+* Worked Example
+#+BEGIN_SRC python :results output :exports both
+# keep short and fast
+print("hello, reveal from Org!")
+#+END_SRC
+
+* Live Demo (Jupyter)
+- Open matching notebook: =notebooks/XX-demo.ipynb=
+- RISE slide mode for classroom
+- Link in MkDocs page
+
+* Key Takeaways
+- ...
+- ...
+
+* Exercise (5–15 min)
+- ...

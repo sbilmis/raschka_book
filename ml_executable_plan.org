@@ -1,0 +1,149 @@
+#+TITLE: Machine Learning (PyTorch + Scikit-Learn) — Executable Study & Teaching Plan
+#+AUTHOR: Selçuk Bilmiş
+#+PROPERTY: header-args :results output :exports both
+
+* How to use this file
+- Each week has actionable TODOs for:
+  - Study (2h/day), Raw notes in Org (:lecture: :SME: :demo: tags)
+  - Code snippets / notebooks
+  - Teaching deliverables (Reveal.js deck, Jupyter demo)
+  - MkDocs publishing checkpoint
+- Mark tasks DONE as you proceed. Filter by tags to extract teaching material:
+  - =C-c \= then type ~lecture~ or ~SME~ or ~demo~
+
+* Phase 0: Setup & Foundations (Week 1)
+** Week 1 [0/6]  :lecture:
+- [ ] STUDY :: Ch.1 (ML overview) + Ch.12 (install basics) — 2h/day
+- [ ] NOTES :: Org quick notes; record conda env (=env.yml=), GPU check
+- [ ] CODE  :: Create ~/ml-book/env.yml, minimal =torch.cuda.is_available()=
+- [ ] TAG   :: Mark key slides ideas with :lecture:
+- [ ] MKDOCS:: Create repo, =mkdocs.yml=, Material theme, GH Pages deploy
+- [ ] CHECK :: Push =docs/index.md= (study log + links)
+
+* Phase 1: Scikit-Learn (Weeks 2–10)
+** Week 2 [0/5]  :lecture:
+- [ ] STUDY :: Ch.2 Perceptron/Adaline
+- [ ] NOTES :: Bullet update rules; plot loss; keep NumPy impl
+- [ ] TAG   :: :lecture: for perceptron intuition visuals
+- [ ] CODE  :: ~notebooks/02-perceptron-adaline.ipynb~ (pre-run)
+- [ ] MKDOCS:: Page ~phase-1/02-perceptron-adaline.md~
+
+** Week 3 [0/5]  :lecture:
+- [ ] STUDY :: Ch.3 Classifier tour (LogReg/SVM/DT/RF/KNN)
+- [ ] NOTES :: When to use which; small benchmark harness
+- [ ] TAG   :: :lecture: conf-matrix examples
+- [ ] CODE  :: ~notebooks/03-classifier-tour.ipynb~
+- [ ] MKDOCS:: ~phase-1/03-classifier-tour.md~
+
+** Week 4 [0/5]  :lecture: :SME:
+- [ ] STUDY :: Ch.4 Preprocessing (impute/encode/scale)
+- [ ] NOTES :: Reusable Pipeline template
+- [ ] TAG   :: :SME: data-prep checklist; :lecture: fit/transform diagram
+- [ ] CODE  :: ~notebooks/04-preprocessing-pipeline.ipynb~
+- [ ] MKDOCS:: ~phase-1/04-preprocessing.md~
+
+** Week 5 [0/5]  :lecture:
+- [ ] STUDY :: Ch.5 Dimensionality Reduction (PCA/LDA/t-SNE)
+- [ ] NOTES :: Explained variance plots; DR dos/don'ts
+- [ ] TAG   :: :lecture: PCA vs LDA visuals
+- [ ] CODE  :: ~notebooks/05-dimensionality-reduction.ipynb~
+- [ ] MKDOCS:: ~phase-1/05-dimensionality-reduction.md~
+
+** Week 6 [0/5]  :lecture: :SME:
+- [ ] STUDY :: Ch.6 Evaluation & Tuning (CV, learning curves, metrics)
+- [ ] NOTES :: ROC vs PR; class imbalance tactics
+- [ ] TAG   :: :SME: model selection checklist; :lecture: metrics board
+- [ ] CODE  :: ~notebooks/06-eval-tuning.ipynb~
+- [ ] MKDOCS:: ~phase-1/06-eval-tuning.md~
+
+** Week 7 [0/4]  :lecture:
+- [ ] STUDY :: Ch.7 Ensembles (RF/Boosting)
+- [ ] NOTES :: Pros/cons; feature importance caveats
+- [ ] CODE  :: ~notebooks/07-ensembles.ipynb~
+- [ ] MKDOCS:: ~phase-1/07-ensembles.md~
+
+** Week 8 [0/5]  :SME:
+- [ ] STUDY :: Ch.8 Sentiment (NLP intro, TF-IDF, out-of-core, LDA)
+- [ ] NOTES :: Text pipeline bullets
+- [ ] TAG   :: :SME: customer feedback triage example
+- [ ] CODE  :: ~notebooks/08-sentiment-analysis.ipynb~
+- [ ] MKDOCS:: ~phase-1/08-sentiment.md~
+
+** Week 9 [0/5]  :lecture:
+- [ ] STUDY :: Ch.9 Regression (Ames, RANSAC, polynomial, RF)
+- [ ] NOTES :: Residual plots & diagnostics
+- [ ] TAG   :: :lecture: baseline->diagnose->improve
+- [ ] CODE  :: ~notebooks/09-regression.ipynb~
+- [ ] MKDOCS:: ~phase-1/09-regression.md~
+
+** Week 10 [0/6]  :lecture: :SME:
+- [ ] STUDY :: Ch.10 Clustering (k-means, hier, DBSCAN)
+- [ ] NOTES :: Elbow/silhouette; density intuition
+- [ ] DELIV :: *Phase 1 Reveal.js deck* (Intro, Data Prep, DR, Eval, Ensembles, Clustering)
+- [ ] DELIV :: *Phase 1 SME tutorial(s)* (data prep + model selection)
+- [ ] CODE  :: Finalize supporting notebooks; pre-run outputs
+- [ ] MKDOCS:: Publish Phase 1 section + link deck(s)
+
+* Phase 2: PyTorch & Deep Learning (Weeks 11–19)
+** Week 11 [0/4]  :lecture:
+- [ ] STUDY :: Ch.11 MLP from scratch (MNIST); backprop once by hand
+- [ ] NOTES :: Clean derivation & diagrams
+- [ ] CODE  :: ~notebooks/11-mlp-from-scratch.ipynb~
+- [ ] MKDOCS:: ~phase-2/11-mlp-from-scratch.md~
+
+** Week 12 [0/4]  :demo:
+- [ ] STUDY :: Ch.12 PyTorch basics (Tensors, Dataset/DataLoader)
+- [ ] NOTES :: Minimal training loop template
+- [ ] CODE  :: ~notebooks/12-pytorch-basics.ipynb~ (RISE ready)
+- [ ] MKDOCS:: ~phase-2/12-pytorch-basics.md~
+
+** Week 13 [0/4]  :lecture:
+- [ ] STUDY :: Ch.13 Autograd & Modules; custom layers
+- [ ] NOTES :: Autograd mental model
+- [ ] CODE  :: ~notebooks/13-autograd-modules.ipynb~
+- [ ] MKDOCS:: ~phase-2/13-mechanics.md~
+
+** Week 14 [0/5]  :lecture: :demo:
+- [ ] STUDY :: Ch.14 CNNs; augmentation, regularization
+- [ ] NOTES :: Architecture diagrams (blocks)
+- [ ] CODE  :: ~notebooks/14-cnns.ipynb~ (pre-run heavy cells)
+- [ ] DELIV :: *Phase 2 deck (Part A): DL intro + CNNs*
+- [ ] MKDOCS:: ~phase-2/14-cnns.md~
+
+** Week 15 [0/4]  :lecture: :SME:
+- [ ] STUDY :: Ch.15 RNN/LSTM basics; gradient clipping
+- [ ] NOTES :: Sequence modeling pitfalls
+- [ ] CODE  :: ~notebooks/15-rnn-lstm.ipynb~
+- [ ] MKDOCS:: ~phase-2/15-rnn-lstm.md~
+
+** Week 16 [0/4]  :lecture:
+- [ ] STUDY :: Ch.16 Transformers; attention
+- [ ] NOTES :: Intuition slides (queries/keys/values, heads, positions)
+- [ ] CODE  :: ~notebooks/16-transformers-bert.ipynb~ (fine-tune demo, pre-run)
+- [ ] MKDOCS:: ~phase-2/16-transformers.md~
+
+** Week 17 [0/4]  :lecture: :demo:
+- [ ] STUDY :: Ch.17 GANs; DCGAN; WGAN-GP (concepts)
+- [ ] NOTES :: Mode collapse symptoms checklist
+- [ ] CODE  :: ~notebooks/17-gans.ipynb~ (replace long training with GIFs)
+- [ ] MKDOCS:: ~phase-2/17-gans.md~
+
+** Week 18 [0/4]  :lecture:
+- [ ] STUDY :: Ch.18 GNNs; message passing
+- [ ] NOTES :: Shapes and batching
+- [ ] CODE  :: ~notebooks/18-gnns.ipynb~
+- [ ] MKDOCS:: ~phase-2/18-gnns.md~
+
+** Week 19 [0/6]  :lecture: :SME:
+- [ ] STUDY :: Ch.19 RL; Q-learning -> DQN
+- [ ] NOTES :: RL glossary & diagrams
+- [ ] DELIV :: *Phase 2 deck (Part B): RNN/Transformer, GNN, RL*
+- [ ] DELIV :: *2–3 SME tutorials* (choose domains relevant to your audience)
+- [ ] CODE  :: Finalize supporting notebooks (CartPole demo pre-run)
+- [ ] MKDOCS:: Publish Phase 2; link all decks & notebooks
+
+* Publishing checklist (repeat each phase)
+- [ ] Validate links/images (MkDocs preview)
+- [ ] Pre-run notebooks & clear heavy training
+- [ ] Export Reveal.js HTML + PDF
+- [ ] Commit & push; check GitHub Pages
