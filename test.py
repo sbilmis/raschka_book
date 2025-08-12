@@ -6,6 +6,3 @@ np.arange
 
 def foo():
     print("bad style")  # one-liner function, not PEP8
-
-# Hello World program
-print("Hello, World!")

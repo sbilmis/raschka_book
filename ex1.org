@@ -1,0 +1,333 @@
+#+TITLE: Org Babel with Python and Pyenv Virtualenv
+#+AUTHOR: Selçuk Bilmiş
+
+* 🧪 Overview
+This Org file demonstrates how to execute Python code in Org Babel using a virtual environment managed by =pyenv virtualenv=.
+
+We assume the virtual environment is called =raschka_book=.
+
+You can list your virtual environments with:
+
+#+begin_src shell
+pyenv virtualenvs
+#+end_src
+
+#+RESULTS:
+| 3.9.21/envs/myenv        | (created     | from     | /Users/sbilmis/.pyenv/versions/3.9.21) |                                        |
+| 3.9.21/envs/raschka_book | (created     | from     | /Users/sbilmis/.pyenv/versions/3.9.21) |                                        |
+| 3.9.21/envs/test         | (created     | from     | /Users/sbilmis/.pyenv/versions/3.9.21) |                                        |
+| myenv                    | (created     | from     | /Users/sbilmis/.pyenv/versions/3.9.21) |                                        |
+| *                        | raschka_book | (created | from                                   | /Users/sbilmis/.pyenv/versions/3.9.21) |
+| test                     | (created     | from     | /Users/sbilmis/.pyenv/versions/3.9.21) |                                        |
+
+And get the full Python path with:
+
+#+begin_src shell
+pyenv activate raschka_book
+pyenv which python
+#+end_src
+
+#+RESULTS:
+: /Users/sbilmis/.pyenv/versions/raschka_book/bin/python
+
+---
+
+* ⚙️ Three Ways to Set the Python Interpreter
+
+** 1. Per-buffer (recommended)**  
+Set this line at the top of your Org file to apply to all Python blocks in the buffer:
+
+#+PROPERTY: header-args:python :python /Users/sbilmis/.pyenv/versions/raschka_book/bin/python :results output
+
+** 2. Per-block**  
+Override the Python interpreter for an individual block like this:
+
+#+begin_src python :python /usr/bin/python3 :results output
+import sys
+print(sys.executable)
+#+end_src
+
+#+RESULTS:
+: /Applications/Xcode.app/Contents/Developer/usr/bin/python3
+
+** 3. Global (Emacs-wide)**  
+Add this to your =init.el= if you want Emacs to use the same interpreter everywhere:
+
+#+begin_src emacs-lisp
+(setq org-babel-python-command "/Users/sbilmis/.pyenv/versions/raschka_book/bin/python")
+#+end_src
+
+Then you don’t need to write =:python= at all unless you override it.
+
+---
+
+* 🧠 Check Which Python Is Being Used
+
+#+begin_src python
+import sys
+print(sys.executable)
+#+end_src
+
+#+RESULTS:
+: /Users/sbilmis/.pyenv/versions/raschka_book/bin/python
+
+---
+
+* 📦 Confirm NumPy Is from the Virtualenv
+
+#+begin_src python
+import numpy
+print(numpy.__file__)
+#+end_src
+
+#+RESULTS:
+: /Users/sbilmis/.pyenv/versions/raschka_book/lib/python3.9/site-packages/numpy/__init__.py
+
+---
+
+* 🎯 Results: value vs. output
+
+**:results value** returns the value of the last expression (works best with IPython):
+
+#+begin_src python :results value
+5 * 5
+#+end_src
+
+#+RESULTS:
+: None
+
+**:results output** captures what is printed using =print()=:
+
+#+begin_src python :results output
+print("This was printed")
+#+end_src
+
+#+RESULTS:
+: This was printed
+
+---
+
+* Using Jupyter in Org Mode with emacs-jupyter
+
+This section describes how to run Jupyter (IPython) code blocks inside Org mode using the emacs-jupyter package instead of ob-ipython.
+
+** Why emacs-jupyter instead of ob-ipython?
+
+- Actively maintained and more stable
+- Supports rich outputs (plots, LaTeX, HTML)
+- No conflicts with other Org Babel languages (e.g., shell, R)
+- Cleaner session and kernel management
+
+** Installation
+
+1. Install the Python Jupyter tools in your environment:
+
+   #+begin_src shell
+   pip install jupyter ipykernel
+   #+end_src
+
+2. Install the emacs-jupyter package:
+
+   #+begin_src emacs-lisp
+   (use-package jupyter
+     :ensure t)
+   #+end_src
+
+3. Enable `jupyter` in Org Babel:
+
+   #+begin_src emacs-lisp
+   (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((jupyter . t)
+      (python . t)
+      (shell . t)
+      (emacs-lisp . t)
+      (R . t)))
+   #+end_src
+
+4. (Optional) Set default session and kernel for convenience:
+
+   #+begin_src emacs-lisp
+   (setq org-babel-default-header-args:jupyter-python
+         '((:session . "py")
+           (:kernel . "python3")))
+   #+end_src
+
+** Writing and Running Jupyter Code Blocks
+
+Use the `#+begin_src jupyter-python` block type and specify a `:session`.
+
+#+begin_src jupyter-python :session py :kernel python3 :results output
+import sys
+print(sys.executable)
+#+end_src
+
+You can define variables and reuse them across blocks within the same session.
+
+#+begin_src jupyter-python :session py :kernel python3 :results value
+x = 3
+x ** 2
+#+end_src
+
+** Plotting Example
+
+Jupyter blocks support matplotlib and inline plots out of the box.
+
+#+begin_src jupyter-python :session py :kernel python3 :results drawer :exports both
+import matplotlib.pyplot as plt
+plt.plot([0, 1, 2], [0, 1, 4])
+plt.title("Sample Plot")
+plt.show()
+#+end_src
+
+** Useful Header Arguments
+
+| Argument         | Description                                  |
+|------------------+----------------------------------------------|
+| :session         | Name of the Jupyter session (required)       |
+| :kernel          | Kernel to use (e.g., python3, py39)          |
+| :results output  | Print-style output from `print()`            |
+| :results value   | Returns the last expression                  |
+| :results drawer  | Wraps output in an Org drawer (cleaner)      |
+| :exports both    | Exports both code and results (for HTML/PDF) |
+| :async yes       | Runs block asynchronously                    |
+
+** Managing Jupyter Sessions
+
+To view and shutdown running sessions:
+
+- `M-x jupyter-repl-list-kernels` – View active sessions
+- `M-x jupyter-shutdown-kernel` – Kill a session by name
+- `M-x jupyter-shutdown-all` – Kill all running kernels
+
+To shut down a specific session from within Org:
+
+#+begin_src emacs-lisp
+(jupyter-shutdown-kernel "py")
+#+end_src
+
+** Snippet Integration with yasnippet
+
+If using yasnippet, create this snippet for `org-mode` to easily insert Jupyter blocks:
+
+~/.emacs.d/snippets/org-mode/jupyter-python
+
+#+begin_src snippet
+# -*- mode: snippet -*-
+# name: jupyter-python block
+# key: jpy
+# --
+#+begin_src jupyter-python :session ${1:py} :kernel ${2:python3} :results output
+$0
+#+end_src
+#+end_src
+
+After saving the snippet, reload with:
+
+#+begin_src emacs-lisp
+(yas-reload-all)
+#+end_src
+
+Now you can type `jpy` + `TAB` to auto-insert a Jupyter block.
+
+** Conclusion
+
+Using `emacs-jupyter` allows you to integrate Jupyter kernel functionality directly into Org mode with rich outputs, reproducible code blocks, and session-based execution. It is a modern and stable alternative to `ob-ipython`.
+
+
+
+* 💡 Emacs-Jupyter for Jupyter-style Output (Optional)
+
+If you want **REPL-like output** with automatic return values, rich display, and session persistence:
+
+
+
+1. Install IPython:
+   #+begin_src shell
+   pyenv activate raschka_book
+   pip install ipython
+   #+end_src
+
+2. Enable ob-ipython in your =init.el=:
+   #+begin_src emacs-lisp
+   (use-package ob-ipython
+     :after org
+     :config
+     (require 'ob-ipython))
+   #+end_src
+
+3. Example block:
+
+#+begin_src ipython :session raschka :results value
+2 + 2
+#+end_src
+
+
+#+begin_src emacs-python 
+2 + 2
+#+end_src
+
+#+begin_src jupyter-python
+import matplotlib.pyplot as plt
+plt.plot([1, 2, 3], [4, 5, 6])
+plt.show()
+#+end_src
+
+#+begin_src shell
+jupyter kernelspec list
+#+end_src
+
+#+RESULTS:
+| Available         | kernels:                                                                  |
+| matlab38          | /Users/sbilmis/Library/Jupyter/kernels/matlab38                           |
+| test2             | /Users/sbilmis/Library/Jupyter/kernels/test2                              |
+| wolframlanguage13 | /Users/sbilmis/Library/Jupyter/kernels/wolframlanguage13                  |
+| python3           | /Users/sbilmis/.pyenv/versions/raschka_book/share/jupyter/kernels/python3 |
+| sagemath-10.5     | /usr/local/share/jupyter/kernels/SageMath-10.5                            |
+
+#+begin_src jupyter-python :session py :kernel python3
+x = 5
+x**2
+#+end_src
+
+#+RESULTS:
+: 25
+
+How to Close (Shutdown) a Jupyter Session in Emacs
+
+🔧 Option 1: Use the built-in command
+
+Run this in Emacs:
+
+How to Close (Shutdown) a Jupyter Session in Emacs
+
+🔧 Option 1: Use the built-in command
+
+Run this in Emacs:
+M-x jupyter-shutdown-kernel
+
+You can also C-x b into the kernel buffer (like *jupyter-kernel:py*) and C-x k to kill it. This will terminate the kernel process.
+
+#+begin_src jupyter-python :session py :kernel python3
+#+end_src
+
+#+begin_src python :results output :eval no-export
+
+#+end_src
+
+#+begin_src ipython :session session01 :file  :exports both
+
+#+end_src
+
+#+begin_src jupyter-python :session py :kernel python3
+
+#+end_src
+#+begin_src jupyter-python :session py :kernel python3 :results drawer :exports both
+import matplotlib.pyplot as plt
+plt.plot([1, 2, 3], [4, 5, 6])
+plt.title("Test Plot")
+plt.show()
+#+end_src
+
+#+RESULTS:
+[[file:./.ob-jupyter/ea34d64e58e14467523eb3f0fc9ed83aceed612c.png]]
